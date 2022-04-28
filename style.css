@@ -1,0 +1,304 @@
+:root{
+    --dark: #242526;
+    --darkest: #18191a;
+    --light: #e4e6eb;
+    --blue: #2d88ff;
+    --Lblue: #4595f3;
+    --gray: #b0b3b8;
+    --darkgray: #424242;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* start of header design */
+.title{
+    position: absolute;
+    width: 100%;
+    height: auto;
+    background: var(--darkest);
+    text-align: center;
+}
+
+.title .title-text{
+    color: var(--light);
+    padding: 20px 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.title .title-text span a{
+    color: var(--Lblue);
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    max-width: 100%;
+    height: 100vh;
+    background: var(--dark);
+}
+
+
+/* start of details or description design*/
+.details{
+    margin-top: -100px;
+    width: 500px;
+    color: var(--light);
+}
+
+.details div:nth-child(1) {
+    font-size: 32px;
+    color: var(--gray);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.details div:nth-child(2){
+    font-size: 22px;
+    color: var(--gray);
+    margin-bottom: 80px;
+}
+
+.details div:nth-child(3){
+    font-size: 22px;
+    margin-right: 100px;
+    font-stretch: condensed;
+    text-align: justify;
+}
+
+.details div:nth-child(3) span{
+    color: var(--blue);
+    font-weight: 600;
+}
+
+
+/* start for calculator design */
+.calcu{
+    width: 400px;
+    height: auto;
+    margin-bottom: 60px;
+}
+
+.result-container{
+    height: 70px;
+    background-color: var(--light);
+    text-align: center;
+    border-radius: 4px;
+}
+
+.result-container .history{
+    text-align: right;
+    padding-right: 10px;
+    padding-top: 15px;
+    font-size: 14px;
+    font-family: monospace;
+    color: var(--gray);
+}
+
+.result-container .result{
+    text-align: right;
+    padding-right: 8px;
+    padding-top: 2px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--darkest);
+}
+
+.buttons{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    width: 100%;
+}
+
+.button{
+    padding: 10px;
+    margin: 2px;
+    font-weight: 800;
+    font-size: 22px;
+    background: var(--darkest);
+    color: var(--gray);
+    border: 1px solid var(--light);
+    border-right: none;
+    border-bottom: none;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+.number{
+    background-color: #1d1d1e;
+}
+
+.button:hover{
+    transform: scale(1.03);
+    color: var(--darkgray);
+    background: var(--light);
+}
+
+.clear,
+#Bs{
+    background: var(--darkgray);
+}
+
+.clear:hover,
+#Bs:hover{
+    background: var(--light);
+}
+
+#equal{
+    background: var(--Lblue);
+    color: var(--light);
+}
+
+#equal:hover{
+    background: var(--gray);
+    color: var(--darkest);
+}
+
+.button:active,
+.equal:active,
+.clear:hover,
+#Bs:hover{
+    background: var(--darkest);
+    color: var(--light);
+}
+
+
+/* start of footer design */
+footer{
+    text-align: center;
+    bottom: 0;
+    position: absolute;
+    background: var(--darkest);
+    width: 100%;
+    height: auto;
+    padding: 20px;
+}
+
+footer span{
+    color: var(--light);
+}
+
+a{
+    color: var(--gray);
+    text-decoration: none;
+}
+
+.accounts{
+    padding-bottom: 5px;
+    font-size: 30px;
+}
+
+#github{
+    color: var(--light);
+    padding-right: 10px;
+}
+
+#facebook{
+    color: var(--blue);
+    padding-left: 10px;
+}
+
+
+
+/* resposive design for mobile and tablet*/
+@media (max-width: 1024px) {
+    .calcu{
+        margin-bottom: 25px;
+    }
+    .details{
+        margin: 0;
+        margin-top: -80px;
+        width: 400px;
+    }
+
+    .details div:nth-child(2){
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 770px) {
+    .details {
+        width: 355px;
+    }
+
+    .details div:nth-child(2){
+        margin-bottom: 20px;
+    }
+
+    .details div:nth-child(3){
+        font-size: 20px;
+    }
+
+    .calcu{
+        width: 300px;
+    }
+
+    .button{
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 645px) {
+    .title .title-text{
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .container{
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .details{
+        width: 100%;
+        padding-top: 23vh;
+    }
+
+    .details div{
+        padding-left: 10px;
+        width: 95%;
+    }
+
+    .details div:nth-child(1){
+        padding: 0;
+        padding-left: 10px;
+        margin-bottom: 2px;
+    }
+
+    .details div:nth-child(2){
+        padding: 0;
+        padding-left: 10px;
+        margin-bottom: 10px;
+    }
+
+    .details div:nth-child(3){
+        padding-top: 20px;
+        padding-bottom: 20px;
+        border-top: 1px solid var(--light);
+        border-bottom: 1px solid var(--light);
+        margin-bottom: 90px;
+    }
+
+    .calcu{
+        width: 90%;
+        margin-bottom: 50px;
+    }
+
+    footer{
+        position: relative;
+    }
+}
