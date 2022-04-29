@@ -1,132 +1,142 @@
 window.onload = function() {
-    let result = document.querySelector(".result");
-    let history = document.querySelector(".history");
-    let btn = Array.from(document.querySelectorAll(".button"));
-    
-    btn.map(button => {
-        button.addEventListener('click', (e) => {
-            switch (e.target.innerText) {
+    // calculator input fields and format a numbers
+    const calcu = {
+        getHstry() {
+            return document.querySelector(".history").innerText;
+        },
+
+        getPrnitHstry(num) {
+            document.querySelector(".history").innerText=num;
+        },
+
+        getOpt(){
+            return document.querySelector(".result").innerText;
+        },
+
+        getPrintOpt(num) {
+            if(num == "") {
+                document.querySelector(".result").innerText=num;
+            } else {
+                document.querySelector(".result").innerText=calcu.getFormat(num);
+            }	
+        },
+
+        getFormat(num) {
+            if (num == "-") {
+                return "";
+            }
+            let n = Number(num);
+            let newNum = n.toLocaleString("en");
+            return newNum;
+        },
+
+        getRevFormat(num) {
+            return Number(num.replace(/,/g,''));
+        }
+    }
+
+    // get all the operator and turn into a function
+    let oprtr = document.getElementsByClassName("operator");
+    for (let i = 0; i < oprtr.length; i++){
+        oprtr[i].addEventListener('click',function(){
+
+            switch (this.innerText || this.id) {
                 case "π":
-                    result.innerText = Math.PI;
+                    calcu.getPrintOpt(Math.PI);
                     break;
                     
                 case "x²":
-                    result.innerText = Math.pow(result.innerText, 2);
+                    calcu.getPrintOpt(Math.pow(calcu.getOpt(), 2));
                     break;
 
                 case "x³":
-                    result.innerText = Math.pow(result.innerText, 3);
+                    calcu.getPrintOpt(Math.pow(calcu.getOpt(), 3));
                     break;
 
                 case "sin":
-                    result.innerText = Math.sin(result.innerText);
+                    calcu.getPrintOpt(Math.sin(calcu.getOpt()));
                     break;
 
                 case "cos":
-                    result.innerText = Math.cos(result.innerText);
+                    calcu.getPrintOpt(Math.cos(calcu.getOpt()));
                     break;
 
                 case "tan":
-                    result.innerText = Math.tan(result.innerText);
+                    calcu.getPrintOpt(Math.tan(calcu.getOpt()));
                     break;
 
                 case "√":
-                    result.innerText = Math.sqrt(result.innerText);
+                    calcu.getPrintOpt(Math.sqrt(calcu.getOpt()));
                     break;
 
                 case "∛":
-                    result.innerText = Math.pow(result.innerText, 1/3);
+                    calcu.getPrintOpt(Math.pow(calcu.getOpt(), 1/3));
                     break;
 
                 case "exp":
-                    result.innerText = Math.exp(result.innerText);
-                    break;
-
-                case "+":
-                    if (history.innerText) {
-                        history.innerText += result.innerText  + "+";
-                        result.innerText = "";
-                    } else {
-                        history.innerText = result.innerText + "+";
-                        result.innerText = "";
-                    }
-                    break;
-                    
-                case "-":
-                    if (history.innerText) {
-                        history.innerText += result.innerText + "-";
-                        result.innerText = "";
-                    } else {
-                        history.innerText = result.innerText + "-";
-                        result.innerText = "";
-                    }
-                    break;
-                    
-                case "*":
-                    if (history.innerText) {
-                        history.innerText += result.innerText + "*";
-                        result.innerText = "";
-                    } else {
-                        history.innerText = result.innerText + "*";
-                        result.innerText = "";
-                    }
-                    break;
-                    
-                case "/":
-                    if (history.innerText) {
-                        history.innerText += result.innerText + "/";
-                        result.innerText = "";
-                    } else {
-                        history.innerText = result.innerText + "/";
-                        result.innerText = "";
-                    }
-                    break;
-                    
-                case "=":
-
-                    try {
-                        if(result.innerText === "" && history.innerText === ""){
-                            return false;
-                        } else {
-                            history.innerText += result.innerText;
-                            result.innerText = eval(history.innerText);
-                        }
-                        
-                    } catch {
-                        history.innerText = "";
-                        result.innerText = "Please check your input\nThe page will reload in 3 seconds";
-
-                        window.setTimeout( () => {
-                            window.location.reload();
-                        }, 3000);
-                    }
-                    
-                    break;
-                
-                case "CE":
-                    result.innerText = "";
+                    calcu.getPrintOpt(Math.exp(calcu.getOpt())); 
                     break;
 
                 case "C":
-                    result.innerText = "";
-                    history.innerText = "";
+                    calcu.getPrnitHstry(""); //clear history
+                    calcu.getPrintOpt(""); //clear current output
                     break;
 
+                case "CE":
+                    calcu. getPrintOpt(""); //clear current output
+                    break;
+
+                case "Bs":
+                    let res = calcu.getRevFormat(calcu.getOpt()).toString();
+                    if (res) {
+                        res = res.slice(0, -1); //delete the last number
+                        calcu.getPrintOpt(res); //print new output
+                    }
+                    break;
+                    
                 default:
-                    result.innerText += e.target.innerText;
+                    let result = calcu.getOpt();
+                    let history = calcu.getHstry();
+                    if(result == "" && history != ""){
+                        if (isNaN(history[history.length-1])){
+                            history = history.slice(0, -1);
+                        }
+                    }
+
+                    if(result != "" || history !=" "){
+                        result = result == ""? result : calcu.getRevFormat(result);
+                        history = history+result;
+                        try {
+                            if (this.innerText == "=") {
+                                let result = eval(history); 
+                                calcu.getPrintOpt(result); //get the total
+                                calcu.getPrnitHstry(history); 
+                            } else {
+                                history += this.innerText;
+                                calcu.getPrnitHstry(history);
+                                calcu.getPrintOpt("");
+                            }
+                        } catch (error) {
+                            calcu.getPrnitHstry("");
+                            calcu.getPrintOpt(error);
+                        }
+                    }
                     break;
             }
         });
-    });
+    }
 
-    const bs = document.querySelector("#Bs");
-    bs.addEventListener('click', () => {
-        if (result.innerText === '') {
-            history.innerText = history.innerText.slice(0, -1);
-        } else {
-            result.innerText = result.innerText.slice(0, -1);
-        }
-    });
+    // get the numbers and put into input fields
+    let numbers = document.querySelectorAll(".number");
+    for(let i = 0; i < numbers.length; i++){
+        numbers[i].addEventListener('click', function() {
+            let output = calcu.getRevFormat(calcu.getOpt());
+            if (output != NaN) {
+                output += this.innerText;
+                calcu.getPrintOpt(output);
+            }
+        });
+    }
 
     // disable the inspect element
     document.addEventListener("contextmenu", (e) => {
@@ -139,19 +149,20 @@ window.onload = function() {
         }
 
         if (e.ctrlKey && e.shiftKey && e.keyCode === "I".charCodeAt(0)) {
-          return false;  
+            return false;  
         }
         if (e.ctrlKey && e.shiftKey && e.keyCode === "C".charCodeAt(0)) {
-          return false;  
+            return false;  
         }
         if (e.ctrlKey && e.shiftKey && e.keyCode === "J".charCodeAt(0)) {
-          return false;  
+            return false;  
         }
         if (e.ctrlKey && e.shiftKey && e.keyCode === "U".charCodeAt(0)) {
-          return false;  
+            return false;  
         }
         if (e.ctrlKey && e.keyCode == "U".charCodeAt(0)) {
-          return false;  
+            return false;  
         }
     }
+    
 }
